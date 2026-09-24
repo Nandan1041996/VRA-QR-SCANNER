@@ -1090,14 +1090,14 @@
                 </div>
                 <input
                     type="text" id="dl-number" class="field-input"
-                    placeholder="15 or 19 character DL number"
+                    placeholder="15 to 19 characters DL number"
                     maxlength="19"
                     oninput="formatDL(this)"
                     onblur="onDLBlur()"
                     autocomplete="off" autocorrect="off" spellcheck="false"
                 >
-                <div class="dl-counter" id="dl-counter">0 / must be 15 or 19 characters</div>
-                <div class="field-hint" id="hint-dl">Alphanumeric only · exactly 15 or 19 characters</div>
+                <div class="dl-counter" id="dl-counter">0 / must be 15 to 19 characters</div>
+                <div class="field-hint" id="hint-dl">Alphanumeric only · between 15 and 19 characters</div>
                 <div class="field-error" id="dl-error"></div>
             </div>
 
@@ -1185,7 +1185,7 @@ const LANG_MAP = {
         verifyTitle:'ડ્રાઇવર ચકાસણી',
         verifySub:'આગળ વધવા માટે તમારી લાઇસન્સ વિગત દાખલ કરો',
         lblDL:'ડ્રાઇવિંગ લાઇસન્સ નંબર', lblDOB:'જન્મ તારીખ',
-        hintDL:'માત્ર અક્ષરો અને સંખ્યા · ચોક્કસ 15 અથવા 19 અક્ષરો',
+        hintDL:'માત્ર અક્ષરો અને સંખ્યા · 15 થી 19 અક્ષરો વચ્ચે',
         btnVerify:'ચકાસો અને આગળ વધો →',
         scanHint:'કૅમેરાને વાહનના QR કોડ પર લઈ જાઓ',
         lblVehicle:'વાહન નંબર', btnReset:'આગળ વાહન સ્કૅન કરો',
@@ -1209,7 +1209,7 @@ const LANG_MAP = {
         verifyTitle:'चालक सत्यापन',
         verifySub:'आगे बढ़ने के लिए अपने लाइसेंस की जानकारी दर्ज करें',
         lblDL:'ड्राइविंग लाइसेंस नंबर', lblDOB:'जन्म तिथि',
-        hintDL:'केवल अक्षर और अंक · सटीक 15 या 19 अक्षर',
+        hintDL:'केवल अक्षर और अंक · 15 से 19 अक्षर के बीच',
         btnVerify:'सत्यापित करें और जारी रखें →',
         scanHint:'कैमरा वाहन के QR कोड पर ले जाएं',
         lblVehicle:'वाहन नंबर', btnReset:'अगला वाहन स्कैन करें',
@@ -1233,7 +1233,7 @@ const LANG_MAP = {
         verifyTitle:'Driver Verification',
         verifySub:'Enter your driving license details to proceed',
         lblDL:'Driving License Number', lblDOB:'Date of Birth',
-        hintDL:'Alphanumeric only · exactly 15 or 19 characters',
+        hintDL:'Alphanumeric only · between 15 and 19 characters',
         btnVerify:'Verify & Continue →',
         scanHint:'Point camera at the vehicle\'s QR code',
         lblVehicle:'Vehicle Number', btnReset:'Scan Next Vehicle',
@@ -1538,7 +1538,7 @@ function goToVerify() {
     });
     document.getElementById('dl-error').classList.remove('show');
     document.getElementById('dob-error').classList.remove('show');
-    document.getElementById('dl-counter').textContent  = '0 / must be 15 or 19 characters';
+    document.getElementById('dl-counter').textContent  = '0 / must be 15 to 19 characters';
     document.getElementById('dl-counter').className   = 'dl-counter';
     document.getElementById('verify-status').className = 'verify-status';
     document.getElementById('btn-verify').disabled = false;
@@ -1560,9 +1560,9 @@ function formatDL(input) {
 
 function updateDLCounter(len) {
     const c = document.getElementById('dl-counter');
-    if (len === 15 || len === 19) { c.textContent = `${len} ✓ valid length`; c.className = 'dl-counter valid'; }
-    else if (len === 0)            { c.textContent = '0 / must be 15 or 19 characters'; c.className = 'dl-counter'; }
-    else                           { c.textContent = `${len} / must be exactly 15 or 19`; c.className = 'dl-counter invalid'; }
+    if (len >= 15 && len <= 19) { c.textContent = `${len} ✓ valid length`; c.className = 'dl-counter valid'; }
+    else if (len === 0)         { c.textContent = '0 / must be 15 to 19 characters'; c.className = 'dl-counter'; }
+    else                        { c.textContent = `${len} / must be between 15 and 19`; c.className = 'dl-counter invalid'; }
 }
 
 function validateDL() {
@@ -1570,9 +1570,14 @@ function validateDL() {
     const inp = document.getElementById('dl-number');
     const err = document.getElementById('dl-error');
     if (!val) { inp.classList.remove('error','success'); err.classList.remove('show'); return false; }
-    if (val.length !== 15 && val.length !== 19) {
+    //if (val.length !== 15 && val.length !== 19) {
+    //    inp.classList.add('error'); inp.classList.remove('success');
+    //    err.textContent = `Must be exactly 15 or 19 characters (you entered ${val.length}).`;
+    //    err.classList.add('show'); return false;
+    //}
+        if (val.length < 15 || val.length > 19) {
         inp.classList.add('error'); inp.classList.remove('success');
-        err.textContent = `Must be exactly 15 or 19 characters (you entered ${val.length}).`;
+        err.textContent = `Must be between 15 and 19 characters (you entered ${val.length}).`;
         err.classList.add('show'); return false;
     }
     if (!/^[A-Z0-9]+$/.test(val)) {
