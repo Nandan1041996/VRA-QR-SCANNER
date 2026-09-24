@@ -871,7 +871,7 @@
 
         .token-details {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 10px;
             margin-bottom: 28px;
         }
@@ -898,6 +898,13 @@
             color: var(--ink);
             font-family: 'DM Mono', monospace;
             word-break: break-all;
+        }
+
+        .token-detail-item-single {
+            padding: 20px 22px;
+        }
+        .token-detail-item-single .token-detail-value {
+            font-size: 1.3rem;
         }
 
         /* ── CONFETTI PIECES ── */
@@ -976,7 +983,7 @@
             <div class="token-number" id="token-number-display">TKN---------</div>
         </div>
 
-        <div class="token-details" id="token-details">
+        <!-- <div class="token-details" id="token-details">
             <div class="token-detail-item">
                 <div class="token-detail-label">Vehicle No</div>
                 <div class="token-detail-value" id="td-vehicle">—</div>
@@ -992,6 +999,13 @@
             <div class="token-detail-item">
                 <div class="token-detail-label">V-Type / Tire</div>
                 <div class="token-detail-value" id="td-vtype">—</div>
+            </div>
+        </div> -->
+
+        <div class="token-details" id="token-details">
+            <div class="token-detail-item token-detail-item-single">
+                <div class="token-detail-label">Token No.</div>
+                <div class="token-detail-value" id="td-tokenno">—</div>
             </div>
         </div>
 
@@ -1774,11 +1788,7 @@ function showTokenPopup(data, code, L) {
     const ggidText= document.getElementById('ggid-text');
     const btnText = document.getElementById('btn-token-ok-text');
 
-    document.getElementById('td-vehicle').textContent  = qrFields.Vehicleno   || '—';
-    document.getElementById('td-itemtype').textContent = qrFields.Itemtypecode || '—';
-    document.getElementById('td-lrno').textContent     = qrFields.Lrno         || '—';
-    document.getElementById('td-vtype').textContent    = (qrFields.Vtype || '—') + ' / ' + (qrFields.Vtire || '—');
-
+    document.getElementById('td-tokenno').textContent = tokenNumber || '—';
     btnText.textContent = L.tokenBtn || 'Scan Next Vehicle';
 
     if (sapStatus === 'A') {
@@ -1787,7 +1797,7 @@ function showTokenPopup(data, code, L) {
         icon.innerHTML = '✓';
         heading.className = 'token-heading';
         heading.textContent = L.tokenHeading || 'Entry Approved!';
-        sub.textContent = L.tokenSub || 'Your access token has been generated';
+        sub.textContent = 'Result - ' + (sapMessage || L.tokenSub || 'Your access token has been generated');
         tokenBox.style.display = 'block';
         document.getElementById('token-number-display').textContent = tokenNumber;
         if (ggid) { ggidBox.style.display = 'block'; ggidText.textContent = ggid; }
@@ -1800,7 +1810,7 @@ function showTokenPopup(data, code, L) {
         icon.innerHTML = '✕';
         heading.className = 'token-heading error-text';
         heading.textContent = L.tokenDenied || 'Entry Denied!';
-        sub.textContent = sapMessage || 'Vehicle Blocked or Error occurred.';
+        sub.textContent = 'Result - ' + (sapMessage || 'Vehicle Blocked or Error occurred.');
         tokenBox.style.display = 'none';
         ggidBox.style.display = 'none';
         speak((L.tokenDenied || 'Entry Denied') + '. ' + (sapMessage || ''), code);
