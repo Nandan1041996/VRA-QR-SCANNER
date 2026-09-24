@@ -976,29 +976,17 @@
         <div class="token-heading" id="token-heading">Entry Approved!</div>
         <div class="token-sub" id="token-sub">Your access token has been generated</div>
         
-        <div class="ggid-display" id="ggid-display">GGID : <span id="ggid-text">—</span></div>
+        <!-- <div class="ggid-display" id="ggid-display">GGID : <span id="ggid-text">—</span></div>
 
         <div class="token-number-wrap" id="token-number-box">
             <div class="token-number-label">TOKEN NUMBER</div>
             <div class="token-number" id="token-number-display">TKN---------</div>
         </div>
 
-        <!-- <div class="token-details" id="token-details">
-            <div class="token-detail-item">
-                <div class="token-detail-label">Vehicle No</div>
-                <div class="token-detail-value" id="td-vehicle">—</div>
-            </div>
-            <div class="token-detail-item">
-                <div class="token-detail-label">Item Type</div>
-                <div class="token-detail-value" id="td-itemtype">—</div>
-            </div>
-            <div class="token-detail-item">
-                <div class="token-detail-label">LR No</div>
-                <div class="token-detail-value" id="td-lrno">—</div>
-            </div>
-            <div class="token-detail-item">
-                <div class="token-detail-label">V-Type / Tire</div>
-                <div class="token-detail-value" id="td-vtype">—</div>
+        <div class="token-details" id="token-details">
+            <div class="token-detail-item token-detail-item-single">
+                <div class="token-detail-label">Token No.</div>
+                <div class="token-detail-value" id="td-tokenno">—</div>
             </div>
         </div> -->
 
@@ -1783,9 +1771,6 @@ function showTokenPopup(data, code, L) {
     const icon    = document.getElementById('token-icon');
     const heading = document.getElementById('token-heading');
     const sub     = document.getElementById('token-sub');
-    const tokenBox= document.getElementById('token-number-box');
-    const ggidBox = document.getElementById('ggid-display');
-    const ggidText= document.getElementById('ggid-text');
     const btnText = document.getElementById('btn-token-ok-text');
 
     document.getElementById('td-tokenno').textContent = tokenNumber || '—';
@@ -1798,10 +1783,11 @@ function showTokenPopup(data, code, L) {
         heading.className = 'token-heading';
         heading.textContent = L.tokenHeading || 'Entry Approved!';
         sub.textContent = 'Result - ' + (sapMessage || L.tokenSub || 'Your access token has been generated');
-        tokenBox.style.display = 'block';
-        document.getElementById('token-number-display').textContent = tokenNumber;
-        if (ggid) { ggidBox.style.display = 'block'; ggidText.textContent = ggid; }
-        else { ggidBox.style.display = 'none'; }
+        // tokenBox.style.display = 'block';
+        // document.getElementById('token-number-display').textContent = tokenNumber;
+        // if (ggid) { ggidBox.style.display = 'block'; ggidText.textContent = ggid; }
+        // else { ggidBox.style.display = 'none'; }
+        // speak((L.tokenHeading || 'Entry Approved') + '. Token ' + tokenNumber, code);
         speak((L.tokenHeading || 'Entry Approved') + '. Token ' + tokenNumber, code);
         launchConfetti();
     } else {
@@ -1811,8 +1797,9 @@ function showTokenPopup(data, code, L) {
         heading.className = 'token-heading error-text';
         heading.textContent = L.tokenDenied || 'Entry Denied!';
         sub.textContent = 'Result - ' + (sapMessage || 'Vehicle Blocked or Error occurred.');
-        tokenBox.style.display = 'none';
-        ggidBox.style.display = 'none';
+        // tokenBox.style.display = 'none';
+        // ggidBox.style.display = 'none';
+        // speak((L.tokenDenied || 'Entry Denied') + '. ' + (sapMessage || ''), code);
         speak((L.tokenDenied || 'Entry Denied') + '. ' + (sapMessage || ''), code);
     }
 
